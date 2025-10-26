@@ -30,14 +30,23 @@ df.head()
 # visualizar o shape do dataframe
 df.shape
 
-# Separar as minhas variaveis
+# Separar as minhas variáveis
 X, y = df.drop(["Depression", "id", 'Profession', 'Work Pressure', 'Job Satisfaction'], axis=1), df["Depression"]
 
 # Analise exploratória dos dados
+
+# Verificando o dataframe
+X.info()
 
 # Criando faixa etária para 'Age'
 bins = [0, 18, 24, 30, 40, 50, 59]
 labels = ['Até 18 anos', 'De 19 até 24 anos', 'De 25 até 30 anos', 'De 31 até 40 anos', 'De 41 até 50 anos', 'acima de 50 anos']
 X['Age_Range'] = pd.cut(X['Age'], bins=bins, labels=labels)
 X.groupby(['Age_Range'], observed=True).size().astype("category")
+
+# Verificando null na variável 'Age_Range'
+X['Age_Range'].isna().sum()
+
+# Alterando  variáveis do tipo objeto para numérica
+df_analise["Academic Pressure"].astype("float64")
 
