@@ -27,7 +27,7 @@ df = pd.read_csv("../data/student_depression_dataset.csv")
 # Visualizar os dados
 df.head()
 
-# visualizar o shape do dataframe
+# Visualizar o shape do dataframe
 df.shape
 
 # Separar as minhas variáveis
@@ -71,3 +71,12 @@ X['Sleep Duration'] = X['Sleep Duration'].fillna(X['Sleep Duration'].mean())
 # Eliminando a coluna "Age" e criando um novo dataframe
 df_analise = X.drop(["Age"], axis=1).copy()
 df_analise["Depression"] = y
+
+# Visualizar os dados do novo dataframe
+print(df_analise.head())
+
+# Total de valores únicos de cada variável
+valores_unicos = []
+for i in df_analise.columns[0:18].tolist():
+    print(i, ':', len(df_analise[i].astype(str).value_counts()))
+    valores_unicos.append(len(df_analise[i].astype(str).value_counts()))
