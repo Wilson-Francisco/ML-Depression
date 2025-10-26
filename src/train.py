@@ -41,4 +41,3 @@ labels = ['Até 18 anos', 'De 19 até 24 anos', 'De 25 até 30 anos', 'De 31 at�
 X['Age_Range'] = pd.cut(X['Age'], bins=bins, labels=labels)
 X.groupby(['Age_Range'], observed=True).size().astype("category")
 
-
