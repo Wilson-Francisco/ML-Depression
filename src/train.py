@@ -81,7 +81,10 @@ for i in df_analise.columns[0:14].tolist():
     print(i, ':', len(df_analise[i].astype(str).value_counts()))
     valores_unicos.append(len(df_analise[i].astype(str).value_counts()))
 
-
 # Visualizando algumas medidas estatísticas.
 df_analise.describe()
 print(df_analise.describe())
+
+# Separar as features e target
+features = df_analise.columns[0:-1]
+target = "Depression"
