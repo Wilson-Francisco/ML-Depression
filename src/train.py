@@ -107,3 +107,20 @@ colunas = ['Gender', 'Academic Pressure','Study Satisfaction', 'Sleep Duration',
 for i in colunas:
     sns.countplot(data = df_analise, x = df_analise[i], hue = "Depression")
     plt.show()
+
+# Verificando o teste estatístico da correlação das variáveis categóricas
+# Ho não há evidências de associação entre variaveis_categoricas e Depression
+def teste_hipotese_categorica(df_analise, variaveis_categoricas):
+    contingency = pd.crosstab(df_analise[variaveis_categoricas], df_analise['Depression'])
+    chi2, p, dof, expected = chi2_contingency(contingency)
+    print(f"\nTeste de Independência: {variaveis_categoricas} x Depression")
+    print(contingency)
+    print(f"Chi2: {chi2:.2f}")
+    print(f"p-valor: {p:.4f}")
+    if p < 0.05:
+        print(f"Resultado: Rejeitamos Ho, há associação entre {variaveis_categoricas} e Depression.")
+    else:
+        print(f"Resultado: Não rejeitamos Ho, não há evidências de associação entre {variaveis_categoricas} e Depression.")
+
+for var in variaveis_categoricas:
+    teste_hipotese_categorica(df_analise, var)
