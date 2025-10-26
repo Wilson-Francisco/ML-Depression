@@ -77,6 +77,11 @@ print(df_analise.head())
 
 # Total de valores únicos de cada variável
 valores_unicos = []
-for i in df_analise.columns[0:18].tolist():
+for i in df_analise.columns[0:14].tolist():
     print(i, ':', len(df_analise[i].astype(str).value_counts()))
     valores_unicos.append(len(df_analise[i].astype(str).value_counts()))
+
+
+# Visualizando algumas medidas estatísticas.
+df_analise.describe()
+print(df_analise.describe())
