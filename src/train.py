@@ -124,3 +124,9 @@ def teste_hipotese_categorica(df_analise, variaveis_categoricas):
 
 for var in variaveis_categoricas:
     teste_hipotese_categorica(df_analise, var)
+
+# Tabela de correspondência de variáveis
+df_analise[["City", "Depression"]].groupby(["City"], as_index=False).value_counts()
+df_analise[["Degree", "Depression"]].groupby(["Degree"], as_index=False).value_counts()
+print(df_analise[["City", "Depression"]].groupby(["City"], as_index=False).value_counts())
+print(df_analise[["Degree", "Depression"]].groupby(["Degree"], as_index=False).value_counts())
