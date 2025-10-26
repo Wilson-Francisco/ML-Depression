@@ -64,3 +64,6 @@ def extrar_horas(s):
 X['Sleep Duration'] = X['Sleep Duration'].apply(extrar_horas)
 
 print(X['Sleep Duration'].isnull().sum())
+
+# Preenchendo os valores null
+X['Sleep Duration'] = X['Sleep Duration'].fillna(X['Sleep Duration'].mean())
