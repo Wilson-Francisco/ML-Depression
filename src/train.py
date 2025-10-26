@@ -67,3 +67,7 @@ print(X['Sleep Duration'].isnull().sum())
 
 # Preenchendo os valores null
 X['Sleep Duration'] = X['Sleep Duration'].fillna(X['Sleep Duration'].mean())
+
+# Eliminando a coluna "Age" e criando um novo dataframe
+df_analise = X.drop(["Age"], axis=1).copy()
+df_analise["Depression"] = y
