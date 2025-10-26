@@ -2,7 +2,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import time
+import re
 import numpy as np
 import scipy.stats as stats
 
@@ -53,3 +53,14 @@ X['Financial Stress'] = pd.to_numeric(X['Financial Stress'], errors='coerce')
 
 # Preenchendo os valores null
 X['Financial Stress'] = X['Financial Stress'].fillna(X['Financial Stress'].mean())
+
+# Verificando o dataframe após o tratamento de algumas variáveis
+X.info()
+
+# Extrair as horas da variável 'Sleep Duration'
+def extrar_horas(s):
+    match = re.search(r"(\d+(\.\d+)?)", str(s))
+    return float(match.group(1)) if match else np.nan
+X['Sleep Duration'] = X['Sleep Duration'].apply(extrar_horas)
+
+print(X['Sleep Duration'].isnull().sum())
