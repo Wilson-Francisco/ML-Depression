@@ -48,5 +48,8 @@ X.groupby(['Age_Range'], observed=True).size().astype("category")
 X['Age_Range'].isna().sum()
 
 # Alterando  variáveis do tipo objeto para numérica
-df_analise["Academic Pressure"].astype("float64")
+X["Academic Pressure"].astype("float64")
+X['Financial Stress'] = pd.to_numeric(X['Financial Stress'], errors='coerce')
 
+# Preenchendo os valores null
+X['Financial Stress'] = X['Financial Stress'].fillna(X['Financial Stress'].mean())
