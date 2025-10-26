@@ -52,7 +52,7 @@ X["Academic Pressure"].astype("float64")
 X['Financial Stress'] = pd.to_numeric(X['Financial Stress'], errors='coerce')
 
 # Preenchendo os valores null
-X['Financial Stress'] = X['Financial Stress'].fillna(X['Financial Stress'].mean())
+X['Financial Stress'] = X['Financial Stress'].fillna(int(X['Financial Stress'].mean()))
 
 # Verificando o dataframe após o tratamento de algumas variáveis
 X.info()
@@ -66,7 +66,7 @@ X['Sleep Duration'] = X['Sleep Duration'].apply(extrar_horas)
 print(X['Sleep Duration'].isnull().sum())
 
 # Preenchendo os valores null
-X['Sleep Duration'] = X['Sleep Duration'].fillna(X['Sleep Duration'].mean())
+X['Sleep Duration'] = X['Sleep Duration'].fillna(int(X['Sleep Duration'].mean()))
 
 # Eliminando a coluna "Age" e criando um novo dataframe
 df_analise = X.drop(["Age"], axis=1).copy()
@@ -85,6 +85,25 @@ for i in df_analise.columns[0:14].tolist():
 df_analise.describe()
 print(df_analise.describe())
 
+# Separando as variáveis categóricas
+variaveis_categoricas = []
+for i in df_analise.columns[0:14].tolist():
+        if df_analise.dtypes[i] == 'object' or df_analise.dtypes[i] == 'category':
+            variaveis_categoricas.append(i)
+
 # Separar as features e target
 features = df_analise.columns[0:-1]
 target = "Depression"
+
+# Visualizar os gráficos das variáveis em função de 'Depression'
+# Ajustar o tamanho dos gráficos
+plt.rcParams["figure.figsize"] = [10.00, 4.00]
+plt.rcParams["figure.autolayout"] = True
+
+colunas = ['Gender', 'Academic Pressure','Study Satisfaction', 'Sleep Duration',
+       'Dietary Habits', 'Have you ever had suicidal thoughts ?',
+       'Work/Study Hours', 'Financial Stress',
+       'Family History of Mental Illness', 'Age_Range']
+for i in colunas:
+    sns.countplot(data = df_analise, x = df_analise[i], hue = "Depression")
+    plt.show()
