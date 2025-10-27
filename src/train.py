@@ -142,3 +142,8 @@ clf_tree = tree.DecisionTreeClassifier(max_depth=5, random_state = 42)
 
 # Normalizar as variáveis
 norm = MinMaxScaler()
+
+# Pipeline com todos objetos
+model_pipeline = pipeline.Pipeline(steps = [("onehot", onehot),
+                                            ("norm ", norm ),
+                                            ("clf_tree", clf_tree)] )
