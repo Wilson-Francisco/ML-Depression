@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import re
 import numpy as np
+import mlflow
 import scipy.stats as stats
 
 from scipy.stats import chi2_contingency
@@ -21,7 +22,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn import metrics
 
 
-# Importar os dados
+# Carregando os dados
 df = pd.read_csv("../data/student_depression_dataset.csv")
 
 # Visualizar os dados
@@ -131,7 +132,7 @@ df_analise[["Degree", "Depression"]].groupby(["Degree"], as_index=False).sum()
 print(df_analise[["City", "Depression"]].groupby(["City"], as_index=False).sum())
 print(df_analise[["Degree", "Depression"]].groupby(["Degree"], as_index=False).sum())
 
-# Cria o encoder e aplica OneHotEncoder
+# Cria o encoder e aplicar OneHotEncoder
 onehot = OneHotEncoder(variables = variaveis_categoricas)
 
 # Dividir os dados em treino e teste para iniciar a fase de criação do modelo
@@ -147,46 +148,50 @@ norm = MinMaxScaler()
 model_pipeline = pipeline.Pipeline(steps = [("onehot", onehot),
                                             ("norm ", norm ),
                                             ("clf_tree", clf_tree)])
+with mlflow.start_run():
+    mlflow.sklearn.autolog()
 
-# Ajustando o modelo
-model_pipeline.fit(X_train[features], y_train)
+    mlflow.set_experiment(experiment_id=290881648036000659)
 
-# Salvando o algoritmo
-model = pd.Series(
-    {
-        "model": model_pipeline,
-        "features": features
-    } )
+    # Ajustando o modelo
+    model_pipeline.fit(X_train[features], y_train)
 
-# Métricas de treino do modelo
-pred_train = model["model"].predict(X_train[features])
-pred_proba_train = model["model"].predict_proba(X_train[features])[:,1]
+    # Salvando o algoritmo
+    model = pd.Series(
+            {
+                "model": model_pipeline,
+                "features": features
+                } )
 
-# Calcular acuracia do modelo de treino
-scores_train = model["model"].score(X_train[features], y_train)
-print(scores_train)
+    # Métricas de treino do modelo
+    pred_train = model["model"].predict(X_train[features])
+    pred_proba_train = model["model"].predict_proba(X_train[features])[:,1]
 
-# Calcular curva ROC do modelo de treino
-scores_roc_auc_train = metrics.roc_auc_score(y_train, pred_proba_train)
-print(scores_roc_auc_train)
+    # Calcular acuracia do modelo de treino
+    scores_train = model["model"].score(X_train[features], y_train)
+    print(scores_train)
 
-# Métricas de teste do modelo
-pred_test = model["model"].predict(X_test[features])
-pred_proba_test = model["model"].predict_proba(X_test[features])[:,1]
+    # Calcular curva ROC do modelo de treino
+    scores_roc_auc_train = metrics.roc_auc_score(y_train, pred_proba_train)
+    print(scores_roc_auc_train)
 
-# Calcular acuracia do modelo de teste
-scores_test = model["model"].score(X_test[features], y_test)
-print(scores_test)
+    # Métricas de teste do modelo
+    pred_test = model["model"].predict(X_test[features])
+    pred_proba_test = model["model"].predict_proba(X_test[features])[:,1]
 
-# Calcular curva ROC do modelo de teste
-scores_auc_test = metrics.roc_auc_score(y_test, pred_proba_test)
-print(scores_auc_test)
+    # Calcular acuracia do modelo de teste
+    scores_test = model["model"].score(X_test[features], y_test)
+    print(scores_test)
 
-# Treino da Curva ROC
-roc_curve_train = metrics.roc_curve(y_train, pred_proba_train)
+    # Calcular curva ROC do modelo de teste
+    scores_auc_test = metrics.roc_auc_score(y_test, pred_proba_test)
+    print(scores_auc_test)
 
-# Teste da Curva ROC
-roc_curve_test = metrics.roc_curve(y_test, pred_proba_test)
+    # Treino da Curva ROC
+    roc_curve_train = metrics.roc_curve(y_train, pred_proba_train)
+
+    # Teste da Curva ROC
+    roc_curve_test = metrics.roc_curve(y_test, pred_proba_test)
 
 # Gráfico da curva ROC
 plt.plot(roc_curve_train[0], roc_curve_train[1])
@@ -195,10 +200,11 @@ plt.grid(True)
 plt.plot([0,1],[0,1], "--", color="black")
 plt.title("Curva ROC")
 plt.ylabel("Sensibilidade")
-plt.xlabel("1 - Especificidade")
+ plt.xlabel("1 - Especificidade")
 plt.legend(
-[
+    [
     f"Treino: {100*scores_train:.2f}%",
     f"Teste: {100*scores_test:.2f}%"
-])
+ ])
+
 plt.show()
