@@ -181,3 +181,24 @@ print(scores_test)
 # Calcular curva ROC do modelo de teste
 scores_auc_test = metrics.roc_auc_score(y_test, pred_proba_test)
 print(scores_auc_test)
+
+# Treino da Curva ROC
+roc_curve_train = metrics.roc_curve(y_train, pred_proba_train)
+
+# Teste da Curva ROC
+roc_curve_test = metrics.roc_curve(y_test, pred_proba_test)
+
+# Gráfico da curva ROC
+plt.plot(roc_curve_train[0], roc_curve_train[1])
+plt.plot(roc_curve_test[0], roc_curve_test[1])
+plt.grid(True)
+plt.plot([0,1],[0,1], "--", color="black")
+plt.title("Curva ROC")
+plt.ylabel("Sensibilidade")
+plt.xlabel("1 - Especificidade")
+plt.legend(
+[
+    f"Treino: {100*scores_train:.2f}%",
+    f"Teste: {100*scores_test:.2f}%"
+])
+plt.show()
