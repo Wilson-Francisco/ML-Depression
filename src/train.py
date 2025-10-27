@@ -1,25 +1,18 @@
 # Importando as biblitecas
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 import re
-import numpy as np
+
+import matplotlib.pyplot as plt
 import mlflow
-import scipy.stats as stats
-
-from scipy.stats import chi2_contingency
-
-from sklearn import pipeline
-
-from sklearn import tree
-
+import numpy as np
+import pandas as pd
+import seaborn as sns
 from feature_engine.encoding import OneHotEncoder
-
-from sklearn.model_selection import train_test_split
-
-from sklearn.preprocessing import MinMaxScaler
-
+from scipy.stats import chi2_contingency
 from sklearn import metrics
+from sklearn import pipeline
+from sklearn import tree
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
 
 mlflow.set_tracking_uri("http://127.0.0.1:5000/")
 mlflow.set_experiment(experiment_id=290881648036000659)
@@ -212,13 +205,9 @@ with mlflow.start_run():
 
     plt.show()
 
-
 # Feature_importance do modelo
 features_names = (model[0][0].transform(X_train[features]).columns.tolist())
-
 feature_importance = pd.Series(model[0][-1].feature_importances_,
                                index=features_names)
-
 feature_importance.sort_values(ascending=False)
-
 print(feature_importance.sort_values(ascending=False))

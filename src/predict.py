@@ -1,9 +1,8 @@
-import pandas as pd
 import re
-import numpy as np
-import mlflow
-import mlflow.sklearn
 
+import mlflow.sklearn
+import numpy as np
+import pandas as pd
 
 # Carregando os dados
 df = pd.read_csv("../data/student_depression_dataset.csv")
