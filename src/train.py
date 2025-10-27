@@ -21,6 +21,10 @@ from sklearn.preprocessing import MinMaxScaler
 
 from sklearn import metrics
 
+mlflow.set_tracking_uri("http://127.0.0.1:5000/")
+mlflow.set_experiment(experiment_id=290881648036000659)
+
+
 
 # Carregando os dados
 df = pd.read_csv("../data/student_depression_dataset.csv")
@@ -151,8 +155,6 @@ model_pipeline = pipeline.Pipeline(steps = [("onehot", onehot),
 with mlflow.start_run():
     mlflow.sklearn.autolog()
 
-    mlflow.set_experiment(experiment_id=290881648036000659)
-
     # Ajustando o modelo
     model_pipeline.fit(X_train[features], y_train)
 
@@ -193,18 +195,18 @@ with mlflow.start_run():
     # Teste da Curva ROC
     roc_curve_test = metrics.roc_curve(y_test, pred_proba_test)
 
-# Gráfico da curva ROC
-plt.plot(roc_curve_train[0], roc_curve_train[1])
-plt.plot(roc_curve_test[0], roc_curve_test[1])
-plt.grid(True)
-plt.plot([0,1],[0,1], "--", color="black")
-plt.title("Curva ROC")
-plt.ylabel("Sensibilidade")
- plt.xlabel("1 - Especificidade")
-plt.legend(
-    [
-    f"Treino: {100*scores_train:.2f}%",
-    f"Teste: {100*scores_test:.2f}%"
- ])
+    # Gráfico da curva ROC
+    plt.plot(roc_curve_train[0], roc_curve_train[1])
+    plt.plot(roc_curve_test[0], roc_curve_test[1])
+    plt.grid(True)
+    plt.plot([0,1],[0,1], "--", color="black")
+    plt.title("Curva ROC")
+    plt.ylabel("Sensibilidade")
+    plt.xlabel("1 - Especificidade")
+    plt.legend(
+        [
+            f"Treino: {100*scores_train:.2f}%",
+            f"Teste: {100*scores_test:.2f}%"
+        ])
 
-plt.show()
+    plt.show()
