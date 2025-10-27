@@ -206,8 +206,8 @@ with mlflow.start_run():
     plt.show()
 
 # Feature_importance do modelo
-features_names = (model[0][0].transform(X_train[features]).columns.tolist())
-feature_importance = pd.Series(model[0][-1].feature_importances_,
+features_names = (model.iloc[0][0].transform(X_train[features]).columns.tolist())
+feature_importance = pd.Series(model.iloc[0][-1].feature_importances_,
                                index=features_names)
 feature_importance.sort_values(ascending=False)
 print(feature_importance.sort_values(ascending=False))
