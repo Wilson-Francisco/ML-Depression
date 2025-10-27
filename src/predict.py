@@ -8,7 +8,7 @@ import mlflow.sklearn
 # Carregando os dados
 df = pd.read_csv("../data/student_depression_dataset.csv")
 
-# Criar função para extrair horas da variável 'Sleep Duration
+# Criar função para extrair horas da variável 'Sleep Duration'
 def process_sleep_duration(series):
 
     def extract_hours(s):
@@ -31,11 +31,14 @@ print(model)
 features = model.feature_names_in_
 
 # Simulando dados novos
-amostra = df[df["Sleep Duration"] == df["Sleep Duration"].max()].sample(18)
+amostra = df[df["CGPA"] < df["CGPA"].max()].sample(30)
 amostra = amostra.drop("Depression", axis=1)
-#
-# # Predição do modelo
-# predicao = model.predict_proba(amostra[features])[:,1]
-# amostra["Proba"] = predicao
-#
-# print(amostra)
+
+# Aplicando a extração da variável 'Sleep Duration' no dataframe da amostra
+amostra['Sleep Duration'] = process_sleep_duration(amostra['Sleep Duration'])
+
+# Predição do modelo
+predicao = model.predict_proba(amostra[features])[:,1]
+amostra["Proba_Depression"] = predicao
+
+print(amostra)
