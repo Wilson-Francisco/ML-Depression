@@ -158,7 +158,7 @@ model = pd.Series(
         "features": features
     } )
 
-# Métricas de treino
+# Métricas de treino do modelo
 pred_train = model["model"].predict(X_train[features])
 pred_proba_train = model["model"].predict_proba(X_train[features])[:,1]
 
@@ -170,7 +170,7 @@ print(scores_train)
 scores_roc_auc_train = metrics.roc_auc_score(y_train, pred_proba_train)
 print(scores_roc_auc_train)
 
-# Métricas de teste
+# Métricas de teste do modelo
 pred_test = model["model"].predict(X_test[features])
 pred_proba_test = model["model"].predict_proba(X_test[features])[:,1]
 
