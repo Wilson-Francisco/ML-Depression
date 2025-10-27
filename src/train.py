@@ -160,6 +160,10 @@ model = pd.Series(
 
 # ASSESS - Métricas de treino
 pred_train = model["model"].predict(X_train[features])
+pred_proba_train = model["model"].predict_proba(X_train[features])[:,1]
 
 # Calcular acuracia do modelo
 scores_train = model["model"].score(X_train[features], y_train)
+
+# Calcular curva ROC do modelo
+scores_roc_auc_train = metrics.roc_auc_score(y_train, pred_proba_train)
