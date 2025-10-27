@@ -14,3 +14,6 @@ print(model)
 
 # Import das features do mlflow
 features = model.feature_names_in_
+
+# Simulando dados novos
+amostra = df[df["Sleep Duration"] == df["Sleep Duration"].max()].sample(60)
