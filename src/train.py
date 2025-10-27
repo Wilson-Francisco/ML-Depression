@@ -149,7 +149,7 @@ model_pipeline = pipeline.Pipeline(steps = [("onehot", onehot),
                                             ("clf_tree", clf_tree)])
 
 # Ajustando o modelo
-model_pipeline.fit(X_train[features], y_train[features])
+model_pipeline.fit(X_train[features], y_train)
 
 # Salvando o algoritmo
 model = pd.Series(
@@ -157,3 +157,9 @@ model = pd.Series(
         "model": model_pipeline,
         "features": features
     } )
+
+# ASSESS - Métricas de treino
+pred_train = model["model"].predict(X_train[features])
+
+# Calcular acuracia do modelo
+scores_train = model["model"].score(X_train[features], y_train)
