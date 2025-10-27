@@ -133,3 +133,6 @@ print(df_analise[["Degree", "Depression"]].groupby(["Degree"], as_index=False).s
 
 # Cria o encoder e aplica OneHotEncoder
 onehot = OneHotEncoder(variables = variaveis_categoricas)
+
+# Dividir os dados em treino e teste para iniciar a fase de criação do modelo
+X_train, X_test, y_train, y_test = train_test_split(df_analise[features], df_analise[target] , test_size = 0.2, random_state = 42)
