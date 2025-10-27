@@ -46,11 +46,11 @@ X.info()
 # Criando faixa etária para 'Age'
 bins = [0, 18, 24, 30, 40, 50, 59]
 labels = ['Até 18 anos', 'De 19 até 24 anos', 'De 25 até 30 anos', 'De 31 até 40 anos', 'De 41 até 50 anos', 'acima de 50 anos']
-X['Age_Range'] = pd.cut(X['Age'], bins=bins, labels=labels)
-X.groupby(['Age_Range'], observed=True).size().astype("category")
+X['Age'] = pd.cut(X['Age'], bins=bins, labels=labels)
+X.groupby(['Age'], observed=True).size().astype("category")
 
 # Verificando null na variável 'Age_Range'
-X['Age_Range'].isna().sum()
+X['Age'].isna().sum()
 
 # Alterando  variáveis do tipo objeto para numérica
 X["Academic Pressure"].astype("float64")
@@ -73,8 +73,8 @@ print(X['Sleep Duration'].isnull().sum())
 # Preenchendo os valores null
 X['Sleep Duration'] = X['Sleep Duration'].fillna(int(X['Sleep Duration'].mean()))
 
-# Eliminando a coluna "Age" e criando um novo dataframe
-df_analise = X.drop(["Age"], axis=1).copy()
+# Criando um novo dataframe
+df_analise = X.copy()
 df_analise["Depression"] = y
 
 # Visualizar os dados do novo dataframe
@@ -108,7 +108,7 @@ plt.rcParams["figure.autolayout"] = True
 colunas = ['Gender', 'Academic Pressure','Study Satisfaction', 'Sleep Duration',
        'Dietary Habits', 'Have you ever had suicidal thoughts ?',
        'Work/Study Hours', 'Financial Stress',
-       'Family History of Mental Illness', 'Age_Range']
+       'Family History of Mental Illness', 'Age']
 for i in colunas:
     sns.countplot(data = df_analise, x = df_analise[i], hue = "Depression")
     plt.show()
