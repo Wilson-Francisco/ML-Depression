@@ -146,4 +146,14 @@ norm = MinMaxScaler()
 # Pipeline com todos objetos
 model_pipeline = pipeline.Pipeline(steps = [("onehot", onehot),
                                             ("norm ", norm ),
-                                            ("clf_tree", clf_tree)] )
+                                            ("clf_tree", clf_tree)])
+
+# Ajustando o modelo
+model_pipeline.fit(X_train[features], y_train[features])
+
+# Salvando o algoritmo
+model = pd.Series(
+    {
+        "model": model_pipeline,
+        "features": features
+    } )
