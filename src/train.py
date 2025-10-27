@@ -105,10 +105,10 @@ target = "Depression"
 plt.rcParams["figure.figsize"] = [10.00, 4.00]
 plt.rcParams["figure.autolayout"] = True
 
-colunas = ['Gender', 'Academic Pressure','Study Satisfaction', 'Sleep Duration',
+colunas = ['Gender', 'Age', 'Academic Pressure','Study Satisfaction', 'Sleep Duration',
        'Dietary Habits', 'Have you ever had suicidal thoughts ?',
        'Work/Study Hours', 'Financial Stress',
-       'Family History of Mental Illness', 'Age']
+       'Family History of Mental Illness']
 for i in colunas:
     sns.countplot(data = df_analise, x = df_analise[i], hue = "Depression")
     plt.show()
@@ -136,24 +136,25 @@ df_analise[["Degree", "Depression"]].groupby(["Degree"], as_index=False).sum()
 print(df_analise[["City", "Depression"]].groupby(["City"], as_index=False).sum())
 print(df_analise[["Degree", "Depression"]].groupby(["Degree"], as_index=False).sum())
 
+# Normalizar as variáveis
+norm = MinMaxScaler()
+
 # Cria o encoder e aplicar OneHotEncoder
 onehot = OneHotEncoder(variables = variaveis_categoricas)
 
 # Dividir os dados em treino e teste para iniciar a fase de criação do modelo
 X_train, X_test, y_train, y_test = train_test_split(df_analise[features], df_analise[target] , test_size = 0.2, random_state = 42)
 
-# Modelo de árvore de Classificador de Árvore de Decisão
-clf_tree = tree.DecisionTreeClassifier(max_depth=5, random_state = 42)
-
-# Normalizar as variáveis
-norm = MinMaxScaler()
-
-# Pipeline com todos objetos
-model_pipeline = pipeline.Pipeline(steps = [("onehot", onehot),
-                                            ("norm ", norm ),
-                                            ("clf_tree", clf_tree)])
 with mlflow.start_run():
     mlflow.sklearn.autolog()
+
+    # Modelo de árvore de Classificador de Árvore de Decisão
+    clf_tree = tree.DecisionTreeClassifier(max_depth=5, random_state = 42)
+
+    # Pipeline com todos objetos
+    model_pipeline = pipeline.Pipeline(steps = [("onehot", onehot),
+                                            ("norm ", norm ),
+                                            ("clf_tree", clf_tree)])
 
     # Ajustando o modelo
     model_pipeline.fit(X_train[features], y_train)
