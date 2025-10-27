@@ -136,3 +136,9 @@ onehot = OneHotEncoder(variables = variaveis_categoricas)
 
 # Dividir os dados em treino e teste para iniciar a fase de criação do modelo
 X_train, X_test, y_train, y_test = train_test_split(df_analise[features], df_analise[target] , test_size = 0.2, random_state = 42)
+
+# Modelo de árvore de Classificador de Árvore de Decisão
+clf_tree = tree.DecisionTreeClassifier(max_depth=5, random_state = 42)
+
+# Normalizar as variáveis
+norm = MinMaxScaler()
