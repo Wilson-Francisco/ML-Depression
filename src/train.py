@@ -171,11 +171,11 @@ with mlflow.start_run():
 
     # Calcular acuracia do modelo de treino
     scores_train = model["model"].score(X_train[features], y_train)
-    print(scores_train)
+    print(f"Acurácia em Treinamento: {scores_train}")
 
     # Calcular curva ROC do modelo de treino
     scores_roc_auc_train = metrics.roc_auc_score(y_train, pred_proba_train)
-    print(scores_roc_auc_train)
+    print(f"Curva ROC em Treinamento: {scores_roc_auc_train}")
 
     # Métricas de teste do modelo
     pred_test = model["model"].predict(X_test[features])
@@ -183,11 +183,11 @@ with mlflow.start_run():
 
     # Calcular acuracia do modelo de teste
     scores_test = model["model"].score(X_test[features], y_test)
-    print(scores_test)
+    print(f"Acurácia em Test: {scores_test}")
 
     # Calcular curva ROC do modelo de teste
     scores_auc_test = metrics.roc_auc_score(y_test, pred_proba_test)
-    print(scores_auc_test)
+    print(f"Curva ROC em Test:{scores_auc_test}")
 
     # Treino da Curva ROC
     roc_curve_train = metrics.roc_curve(y_train, pred_proba_train)

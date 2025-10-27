@@ -3,16 +3,19 @@ import mlflow
 import mlflow.sklearn
 
 
+# Carregando os dados
+df = pd.read_csv("../data/student_depression_dataset.csv")
+
 # Import do modelo do mlflow
 mlflow.set_tracking_uri("http://127.0.0.1:5000/")
-model = mlflow.sklearn.log_model("models:/model_student_depression/1")
+model = mlflow.sklearn.load_model("models:/model_student_depression/1")
 print(model)
 
 # Import das features do mlflow
 features = model.feature_names_in_
 
 # Simulando dados novos
-amostra = df[df["Sleep Duration"] == df["Sleep Duration"].max()].sample(60)
+amostra = df[df["Sleep Duration"] == df["Sleep Duration"].max()].sample(18)
 amostra = amostra.drop("Depression", axis=1)
 
 # Predição do modelo
