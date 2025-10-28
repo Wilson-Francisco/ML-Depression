@@ -1,5 +1,5 @@
 # ML-Depression
-Criação de modelo de Machine Learning que decta depressão em estudantes.
+Criação de modelo de Machine Learning que detecta depressão em estudantes.
 
 ## Fatores e Ações para Redução da Depressão em Estudantes
 
